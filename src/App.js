@@ -1,9 +1,17 @@
 import React from 'react'
+import { BrowserRouter as Router, Route,Switch, Link } from 'react-router-dom'
 import Home from './component/home';
+import Detail from "./component/detail/ProductDetail";
 export default function App() {
   return (
     <div>
-      <Home/>
+    <Router>
+    <Switch>
+    <Route exact path="/" component={Home} />
+    <Route exact path="/detail" component={Detail} />
+    </Switch>
+    </Router>
+      
     </div>
   )
 }

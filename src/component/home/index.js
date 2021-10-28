@@ -1,4 +1,5 @@
 import React from 'react'
+import {Link } from 'react-router-dom'
 import Bx from "./bxx.png"
 
 export default function index() {
@@ -69,11 +70,11 @@ export default function index() {
   </div>
   <div className="container h-auto mx-auto justify-center m-20 shadow-lg bg-white border border-gray-100">
      <div className="flex">
-    <div className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></div>
-    <div className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></div>
-    <div className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></div>
-    <div className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></div>
-    <div className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></div>  
+    <Link to="/detail" className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></Link>
+    <Link to="/detail" className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></Link>
+    <Link to="/detail" className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></Link>
+    <Link to="/detail" className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></Link>
+    <Link to="/detail" className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></Link>  
     </div>
     <div className="flex">
     <div className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></div>
