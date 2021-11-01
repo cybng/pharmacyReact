@@ -25,12 +25,14 @@ export default function index() {
         Admin
         </span>*/}
 
-     <div className="flex text-white text-normal font-normal pl-4 pt-0.5"> Login</div> 
+     <div className="flex text-white text-normal font-normal pl-4 pt-0.5"> 
+     <Link to={"/login"}>Login</Link>
+     </div>
      </div>
    </div>
     
    {/*<h1 className="text-6xl text-white font-extrabold font-mono">Akira B2B </h1>*/}
-    <div className="border border-gray-300 p-6   bg-white shadow-lg rounded-lg   w-9/12  absolute  -bottom-16 ">
+    <div className="border border-gray-300 p-6   bg-white shadow-lg rounded-md   w-9/12  absolute  -bottom-16 ">
        
       <div className="">
         <div className="flex">
