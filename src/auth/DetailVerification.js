@@ -1,9 +1,9 @@
 import React from 'react'
 
-export default function GST() {
+export default function DetailVerification() {
 	return (
-		<> 
-  <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
+		<div>
+		    <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
     <div className="container max-w-screen-lg mx-auto">
       <div>
         <h2 className="font-semibold text-xl text-gray-600">ApiOnline.in</h2>
@@ -47,8 +47,7 @@ export default function GST() {
                     name="email"
                     id="email"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    
-                    placeholder="email@domain.com"
+                     
                   />
                 </div>
                 <div className="md:col-span-3">
@@ -244,7 +243,7 @@ export default function GST() {
       </a>*/}
     </div>
   </div>
-</>
-
+			
+		</div>
 	)
 }

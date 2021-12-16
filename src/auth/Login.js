@@ -17,7 +17,7 @@ export default function Login() {
     }
 
     if(auth.authenticate){
-       if(auth?.user?.role==="admin"){
+       if(auth?.user?.role==="Admin"){
        return <Redirect to={'/admin'} />
        }
        if(auth?.user?.role==="user"){

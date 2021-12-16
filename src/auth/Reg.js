@@ -1,5 +1,5 @@
 import React,{useEffect,useState} from 'react'
-import {Link} from 'react-router-dom'
+import {Link,Redirect} from 'react-router-dom'
 import {useDispatch,useSelector} from "react-redux";
 import {RegPage} from "../action";
 
@@ -10,15 +10,19 @@ export default function Reg() {
    const [fname,setFname] = useState("");
    const [lname,setLname] = useState("");
    const [email,setEmail] = useState("");
+   const [typeOfTrade,setTypeOfTrade] = useState("");
    const [password,setPassword] = useState(""); 
+   const [cpassword,setCPassword] = useState(""); 
 
    const regData=()=>{
-         const data={fname,lname,email,password};
-         console.log(data);
+         const data={fname,lname,email,typeOfTrade,cpassword};
          dispatch(RegPage(data));
+        
     }
 
-
+    if(auth.otpVerification){
+      return <Redirect to={"/otp"}/>
+    }
 
   return (
     <>
@@ -43,186 +47,68 @@ export default function Reg() {
                   <label htmlFor="address">First Name</label>
                   <input
                     type="text"
-                    name="address"
+                    name="fname"
                     id="address"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    defaultValue
-                    placeholder
+                    onChange={(e)=>setFname(e.target.value)}
                   />
                 </div>
                 <div className="md:col-span-2">
                   <label htmlFor="city">Last Name</label>
                   <input
                     type="text"
-                    name="city"
+                    name="lname"
                     id="city"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    defaultValue
-                    placeholder
+                    onChange={(e)=>setLname(e.target.value)}
                   />
                 </div>
-                <div className="md:col-span-5">
+                <div className="md:col-span-3">
                   <label htmlFor="email">Email Address</label>
                   <input
                     type="text"
                     name="email"
                     id="email"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    defaultValue
-                    placeholder="email@domain.com"
+                    onChange={(e)=>setEmail(e.target.value)}
                   />
+                </div>
+                <div className="md:col-span-2">
+                  <label htmlFor="email">Type of Trade</label>
+                  <select
+                    type="text"
+                    name="email"
+                    id="email"
+                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                    onChange={(e)=>setTypeOfTrade(e.target.value)}>
+                    <option></option>
+                    <option>Buyer</option>
+                    <option>Seller</option>
+                  </select>
                 </div>
                 <div className="md:col-span-5">
                   <label htmlFor="email">Password</label>
                   <input
                     type="text"
-                    name="email"
+                    name="password"
                     id="email"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    defaultValue
-                    placeholder="******"
+                    onChange={(e)=>setPassword(e.target.value)}
                   />
                 </div>
                 <div className="md:col-span-5">
-                  <label htmlFor="email">Conferm Password</label>
+                  <label htmlFor="email">Confirm Password</label>
                   <input
                     type="text"
-                    name="email"
+                    name="cpassword"
                     id="email"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    defaultValue
-                    placeholder="******"
+                  onChange={(e)=>setCPassword(e.target.value)}
                   />
                 </div>
 
-                
 
-{/*
-                <div className="md:col-span-3">
-                  <label htmlFor="address">Address / Street</label>
-                  <input
-                    type="text"
-                    name="address"
-                    id="address"
-                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    defaultValue
-                    placeholder
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label htmlFor="city">City</label>
-                  <input
-                    type="text"
-                    name="city"
-                    id="city"
-                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    defaultValue
-                    placeholder
-                  />
-                </div>
-                <div className="md:col-span-2">
-                  <label htmlFor="country">Country / region</label>
-                  <div className="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
-                    <input
-                      name="country"
-                      id="country"
-                      placeholder="Country"
-                      className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
-                      defaultValue
-                    />
-                    <button
-                      tabIndex={-1}
-                      className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600"
-                    >
-                      <svg
-                        className="w-4 h-4 mx-2 fill-current"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <line x1={18} y1={6} x2={6} y2={18} />
-                        <line x1={6} y1={6} x2={18} y2={18} />
-                      </svg>
-                    </button>
-                    <button
-                      tabIndex={-1}
-                      htmlFor="show_more"
-                      className="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-blue-600"
-                    >
-                      <svg
-                        className="w-4 h-4 mx-2 fill-current"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="18 15 12 9 6 15" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>*/}
-                {/*<div className="md:col-span-2">
-                  <label htmlFor="state">State / province</label>
-                  <div className="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
-                    <input
-                      name="state"
-                      id="state"
-                      placeholder="State"
-                      className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
-                      defaultValue
-                    />
-                    <button
-                      tabIndex={-1}
-                      className="cursor-pointer outline-none focus:outline-none transition-all text-gray-300 hover:text-red-600"
-                    >
-                      <svg
-                        className="w-4 h-4 mx-2 fill-current"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <line x1={18} y1={6} x2={6} y2={18} />
-                        <line x1={6} y1={6} x2={18} y2={18} />
-                      </svg>
-                    </button>
-                    <button
-                      tabIndex={-1}
-                      htmlFor="show_more"
-                      className="cursor-pointer outline-none focus:outline-none border-l border-gray-200 transition-all text-gray-300 hover:text-blue-600"
-                    >
-                      <svg
-                        className="w-4 h-4 mx-2 fill-current"
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        strokeWidth={2}
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      >
-                        <polyline points="18 15 12 9 6 15" />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-                <div className="md:col-span-1">
-                  <label htmlFor="zipcode">Zipcode</label>
-                  <input
-                    type="text"
-                    name="zipcode"
-                    id="zipcode"
-                    className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    placeholder
-                    defaultValue
-                  />
-                </div>*/}
+
 
                 <div className="md:col-span-5">
                   <div className="inline-flex items-center">
@@ -242,9 +128,9 @@ export default function Reg() {
                     {/*<button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                       Signup
                     </button>*/}
-                    <Link to={"/gst"} className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={(e)=>regData()}>
                       Signup
-                    </Link>
+                    </button>
                   </div>
                 </div>
               </div>

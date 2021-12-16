@@ -95,7 +95,7 @@ export default function ProductDetail() {
       <img
         alt="Medicine"
         className="lg:w-1/2 w-full object-cover object-center rounded border border-gray-200"
-        src="#"
+        src="https://wallpaperbat.com/img/364806-organic-chemistry-wallpaper-science-chemistry-organic-chemistry.jpg"
       />
       <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
         <h2 className="text-sm title-font text-gray-500 tracking-widest">

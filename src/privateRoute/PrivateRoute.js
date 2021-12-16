@@ -1,5 +1,6 @@
 import React from 'react'
 import {Route,Redirect} from 'react-router-dom'
+import {useDispatch,useSelector} from 'module'
 
 export const UserRoute=({component:Component,...rest})=>{
      return <Route {...rest} component={(props)=>{
@@ -23,5 +24,15 @@ export const AdminRoute=({component:Component,...rest})=>{
      }} />
 }
 
+export const OtpRoute=({component:Component,...rest})=>{
+     return <Route {...rest} component={(props)=>{
+          const otpToken = window.localStorage.getItem("otpToken");
+          if(otpToken){
+               return <Component {...props} />
+          }else{
+               return <Redirect to={"/login"} />
+          }
+     }} />
+}
 
 
