@@ -16,9 +16,16 @@ export default function OtpVerification() {
     }
     dispatch(otpVerification(otpCredentials));
   }
-  if(auth.generalVerification){
-    return <Redirect to={"/general"}/>
+  if(auth?.user?.role==="Seller" && auth.user.otpVerification==="1"){
+    return <Redirect to={"/general"} />
   }
+  if(auth?.user?.role==="Seller" && auth.user.generalVerification==="1"){
+    return <Redirect to={"/seller"} />
+  }
+  if(auth?.user?.role==="Buyer" && auth.user.otpVerification==="1"){
+    return <Redirect to={"/general"} />
+  }
+ 
 	return (
 		<div> 
   <div className="bg-gray-100 h-screen">

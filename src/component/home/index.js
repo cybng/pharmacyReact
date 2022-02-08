@@ -1,5 +1,6 @@
 import React,{useEffect,useState} from 'react'
 import {Link } from 'react-router-dom'
+import axios from "axios";
 import {useDispatch,useSelector} from 'react-redux'
 import Bx from "./bxx.png"
 import {GetCategory} from '../../action'
@@ -7,9 +8,21 @@ import {GetCategory} from '../../action'
 export default function Home() {
      const dispatch =  useDispatch();
      const allCategory = useSelector(state=>state.category);
+     const auth = useSelector(state=>state.auth);
      useEffect(()=>{
         dispatch(GetCategory())
      },[])
+
+
+     const [allData,setAllData] = useState([]);
+     const getCsvData=async()=>{
+        const res=await axios.post("http://localhost:3000/api/getApprovedCsvProduct");
+        console.log(res);
+        setAllData(res.data);
+      }
+    useEffect(()=>{
+      getCsvData();
+    },[])
       
 
      const renderCategories = (categories) => {
@@ -53,7 +66,9 @@ console.log(allCategory.allCategory)
      </div>
      <div className="flex text-white text-normal font-normal p-2">
      {/*<img src="https://img.icons8.com/ios/18/ffffff/shopping-cart.png"/>*/}
-     <Link to={"/login"}>Login</Link>
+     {auth.authenticate?
+      <Link to="/logout">{`Hi ${auth?.user?.fname.charAt(0).toUpperCase()}${auth?.user?.fname.slice(1)}`}</Link>:
+      <Link to={"/login"}>Login</Link>}
      </div>
      {/*<div className="flex text-white text-normal font-normal p-2">
      <Link to={"/login"}>More</Link>
@@ -99,12 +114,12 @@ console.log(allCategory.allCategory)
          
       </div>
 
-      <div className="flex mt-5"> 
+      {/*<div className="flex mt-5"> 
         <span className="mx-1 text-blue-500 ">medicine</span> 
         <span className=" mx-1 text-blue-500">drug</span>  
         <span className=" mx-1 text-blue-500">tablet</span>  
         
-      </div>
+      </div>*/}
     </div>
   </div>
   <div className="container h-auto mx-auto justify-center m-20 shadow-lg bg-white border border-gray-100">
@@ -124,12 +139,12 @@ console.log(allCategory.allCategory)
     </div>*/}
     <main className="my-8">
   <div className="container mx-auto px-6">
-    <h3 className="text-gray-700 text-2xl font-medium">Wrist Watch</h3>
-    <span className="mt-3 text-sm text-gray-500">200+ Products</span>
+    <h3 className="text-gray-700 text-2xl font-medium">Latest Product</h3>
+    <span className="mt-3 text-sm text-gray-500"></span>
     <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
 
-
-      <Link to="/detail" className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
+      {allData.map(allPrdct=>(
+      <Link to={`/detail?id=${allPrdct.SKU_CODE}`} className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
         <div
           className="flex items-end justify-end h-56 w-full bg-cover"
           style={{
@@ -152,122 +167,16 @@ console.log(allCategory.allCategory)
           </button>
         </div>
         <div className="px-5 py-3">
-          <h3 className="text-gray-700 uppercase">H2SO4</h3>
+          <h3 className="text-gray-700 uppercase">SKU : {allPrdct?.SKU_CODE}</h3>
+          <h3 className="text-gray-700 uppercase">{allPrdct?.CHEMICAL_NAME}</h3>
           <span className="text-gray-500 mt-2">500</span>
         </div>
       </Link>
+      ))}
 
-      <Link to="/detail" className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-        <div
-          className="flex items-end justify-end h-56 w-full bg-cover"
-          style={{
-            backgroundImage:
-              'url("https://wallpaperbat.com/img/364806-organic-chemistry-wallpaper-science-chemistry-organic-chemistry.jpg")'
-          }}
-        >
-          <button className="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-          </button>
-        </div>
-        <div className="px-5 py-3">
-          <h3 className="text-gray-700 uppercase">H2SO4</h3>
-          <span className="text-gray-500 mt-2">500</span>
-        </div>
-      </Link>
+      
 
-      <Link to="/detail" className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-        <div
-          className="flex items-end justify-end h-56 w-full bg-cover"
-          style={{
-            backgroundImage:
-              'url("https://wallpaperbat.com/img/364806-organic-chemistry-wallpaper-science-chemistry-organic-chemistry.jpg")'
-          }}
-        >
-          <button className="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-          </button>
-        </div>
-        <div className="px-5 py-3">
-          <h3 className="text-gray-700 uppercase">H2SO4</h3>
-          <span className="text-gray-500 mt-2">500</span>
-        </div>
-      </Link>
-
-      <Link to="/detail" className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-        <div
-          className="flex items-end justify-end h-56 w-full bg-cover"
-          style={{
-            backgroundImage:
-              'url("https://wallpaperbat.com/img/364806-organic-chemistry-wallpaper-science-chemistry-organic-chemistry.jpg")'
-          }}
-        >
-          <button className="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-          </button>
-        </div>
-        <div className="px-5 py-3">
-          <h3 className="text-gray-700 uppercase">H2SO4</h3>
-          <span className="text-gray-500 mt-2">500</span>
-        </div>
-      </Link>
-
-      <Link to="/detail" className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-        <div
-          className="flex items-end justify-end h-56 w-full bg-cover"
-          style={{
-            backgroundImage:
-              'url("https://wallpaperbat.com/img/364806-organic-chemistry-wallpaper-science-chemistry-organic-chemistry.jpg")'
-          }}
-        >
-          <button className="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-          </button>
-        </div>
-        <div className="px-5 py-3">
-          <h3 className="text-gray-700 uppercase">H2SO4</h3>
-          <span className="text-gray-500 mt-2">500</span>
-        </div>
-      </Link>
+ 
 
 
 

@@ -1,6 +1,10 @@
 import React from 'react'
+import { useLocation } from "react-router-dom";
 
 export default function ProductDetail() {
+  const search = useLocation().search;
+  const id=new URLSearchParams(search).get("id");
+  console.log(id);
   return (
     <div>
     <nav className="flex items-center justify-between flex-wrap py-4 lg:px-12 " style={{backgroundColor:"#1B3993"}}>
@@ -99,7 +103,7 @@ export default function ProductDetail() {
       />
       <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
         <h2 className="text-sm title-font text-gray-500 tracking-widest">
-          Product Id : xxxx
+          Product Id : {id}
         </h2>
         <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
           Product Name...

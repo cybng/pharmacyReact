@@ -1,6 +1,43 @@
-import React from 'react'
+import React,{useState}from 'react'
+import {Redirect} from "react-router-dom";
+import {useDispatch,useSelector} from "react-redux";
+import {general} from "../action";
 
 export default function DetailVerification() {
+  const auth = useSelector(state=>state.auth);
+  const dispatch = useDispatch();
+
+  const [companyName,setCompanyName]=useState("");
+  const [mobileNumber,setMobileNumber]=useState("");
+  const [gstNumber,setGstNumber]=useState("");
+  const [paymentTerm,setPaymentTerm]=useState("");
+  const [address,setAddress]=useState("");
+  const [city,setCity]=useState("");
+  const [country,setCountry]=useState("");
+  const [state,setState]=useState("");
+  const [zip,setZip]=useState("");
+  const userId = JSON.parse(window.localStorage.getItem("user"))?._id;
+
+  const generalVerify=()=>{
+    const generalCredentials={
+          userId,companyName,mobileNumber,gstNumber,paymentTerm,address,city,country,state,zip,
+        } 
+    dispatch(general(generalCredentials))
+  }
+
+  if(auth.authenticate){ 
+
+       if(auth?.user?.role==="Admin"){
+       return <Redirect to={'/admin'} />
+       }
+       if(auth?.user?.role==="Seller" &&(auth.user.generalVerification==="1")){
+       return <Redirect to={"/seller"} />
+       }
+       if(auth?.user?.role==="Buyer"){
+       return <Redirect to={"/"} />
+       }
+    }
+
 	return (
 		<div>
 		    <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
@@ -25,7 +62,7 @@ export default function DetailVerification() {
                     name="address"
                     id="address"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    
+                    onChange={(e)=>setCompanyName(e.target.value)}
                     placeholder
                   />
                 </div>
@@ -36,7 +73,7 @@ export default function DetailVerification() {
                     name="city"
                     id="city"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    
+                    onChange={(e)=>setMobileNumber(e.target.value)}
                     placeholder
                   />
                 </div>
@@ -47,32 +84,17 @@ export default function DetailVerification() {
                     name="email"
                     id="email"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                     
+                    onChange={(e)=>setGstNumber(e.target.value)} 
                   />
-                </div>
+                </div> 
                 <div className="md:col-span-3">
-                  <label htmlFor="address">Type of Trade</label>
-                  <select
-                    type="text"
-                    name="address"
-                    id="address"
-                    className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    
-                    placeholder
-                  >
-                  <option>Choose...</option>
-                  <option>Seller</option>
-                  <option>Buyer</option>
-                  </select>
-                </div>
-                <div className="md:col-span-2">
                   <label htmlFor="city">Payment Terms</label>
                   <select
                     type="text"
                     name="city"
                     id="city"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    
+                    onChange={(e)=>setPaymentTerm(e.target.value)}
                     placeholder
                   >
                   <option>Choose...</option>
@@ -87,7 +109,7 @@ export default function DetailVerification() {
                     name="address"
                     id="address"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    
+                    onChange={(e)=>setAddress(e.target.value)}
                     placeholder
                   />
                 </div>
@@ -98,7 +120,7 @@ export default function DetailVerification() {
                     name="city"
                     id="city"
                     className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                    
+                    onChange={(e)=>setCity(e.target.value)}
                     placeholder
                   />
                 </div>
@@ -110,7 +132,7 @@ export default function DetailVerification() {
                       id="country"
                       placeholder="Country"
                       className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
-                      
+                     onChange={(e)=>setCountry(e.target.value)} 
                     />
                     <button
                       tabIndex={-1}
@@ -156,7 +178,7 @@ export default function DetailVerification() {
                       id="state"
                       placeholder="State"
                       className="px-4 appearance-none outline-none text-gray-800 w-full bg-transparent"
-                      
+                      onChange={(e)=>setState(e.target.value)}
                     />
                     <button
                       tabIndex={-1}
@@ -202,7 +224,7 @@ export default function DetailVerification() {
                     id="zipcode"
                     className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50"
                     placeholder
-                    
+                    onChange={(e)=>setZip(e.target.value)}
                   />
                 </div>
                 <div className="md:col-span-5">
@@ -220,7 +242,7 @@ export default function DetailVerification() {
                 </div>
                 <div className="md:col-span-5 text-right">
                   <div className="inline-flex items-end">
-                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                    <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded" onClick={(e)=>generalVerify()}>
                       Submit
                     </button>
                   </div>

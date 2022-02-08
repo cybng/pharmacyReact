@@ -1,16 +1,10 @@
-import {authStatus,regStatus,otpStatus} from '../action/Status';
+import {authStatus,regStatus,otpStatus,generalStatus,logoutStatus} from '../action/Status';
 
 const initialData = {
 	token:null,
-	user:{
-	    fname:"",
-	    lname:"",
-	    email:""
-	},
+	user:[],
 	authenticate:false,
-	authenticating:false,
-	otpVerification:false,
-	generalVerification:false,
+	authenticating:false, 
 	loading:false,
 	error:null,
 	message:""
@@ -44,8 +38,7 @@ export default (state=initialData,action)=>{
 	 	break;
 	 	case regStatus.REG_SUCCESS:
 	 	     state={
-	 	     	...state,
-	 	     	otpVerification:true,
+	 	     	...state, 
 	 	     	authenticating:true,
 	 	     	authenticate:false,
 	 	     	token:action.payload.token,
@@ -56,8 +49,7 @@ export default (state=initialData,action)=>{
 
 	 	case otpStatus.OTP_REQUEST:
 	 	     state={
-              ...state,
-	 	     	otpVerification:true,
+              ...state, 
 	 	     }
 	 	     break;
 	 	case otpStatus.OTP_SUCCESS:
@@ -65,8 +57,8 @@ export default (state=initialData,action)=>{
               ...state,
               token:action.payload.token,
               user:action.payload.user,
-              otpVerification:false,
-              generalVerification:true
+	 	      authenticate:false,
+	 	      authenticating:false 
 	 	     }
 	 	     break;
 	 	case otpStatus.OTP_FAILED:
@@ -74,7 +66,48 @@ export default (state=initialData,action)=>{
 	 		 	...state,
 	 		 	message:action.payload
 	 		 }
-	 		 break;             
+	 		 break;
+        case generalStatus.GENERAL_REQUEST:
+	 	     state={
+              ...state,
+	 	      authenticating:true
+	 	     }
+	 	     break;
+	 	case generalStatus.GENERAL_SUCCESS:
+	 	     state={
+              ...state,
+              token:action.payload.token,
+              user:action.payload.user, 
+	 	      authenticate:true,
+	 	      authenticating:false
+	 	     }
+	 	     break;
+	 	case generalStatus.GENERAL_FAILED:
+	 		 state={
+	 		 	...state,
+	 		 	message:action.payload
+	 		 }
+	 		 break;  
+	 	case logoutStatus.LOGOUT_REQUEST:
+	 	     state={
+	 	     	...state,
+	 	     	loading:true
+	 	     }
+	 	     break;
+	 	case logoutStatus.LOGOUT_SUCCESS:
+	 	     state={
+	 	     	...state, 
+	 	     	...initialData
+	 	     }
+	 	     break;
+	 	case logoutStatus.LOGOUT_FAILED:
+	 	     state={
+	 	     	...state,
+	 	     	error:action.payload.msg,
+	 	     	loading:false
+	 	     }          
+	 	     break;
+	 		 	            
 	 }
 
 	 return state;
