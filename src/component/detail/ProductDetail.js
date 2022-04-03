@@ -1,10 +1,28 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import { useLocation } from "react-router-dom";
+import axios from 'axios';
 
 export default function ProductDetail() {
   const search = useLocation().search;
+  const [prdctDetail,setPrdctDetail] = useState([]);
+  const getProduct=async()=>{ 
+
   const id=new URLSearchParams(search).get("id");
-  console.log(id);
+        const  res = await axios.post("http://localhost:3000/api/getProductDetail",{id});
+        setPrdctDetail(res.data);
+        console.log(res.data);
+         
+    }
+  useEffect(()=>{
+    getProduct();
+  },[])
+
+  const buyNow=()=>{
+    console.log(prdctDetail);
+  }
+
+
+ 
   return (
     <div>
     <nav className="flex items-center justify-between flex-wrap py-4 lg:px-12 " style={{backgroundColor:"#1B3993"}}>
@@ -94,6 +112,7 @@ export default function ProductDetail() {
 </nav>
 
     <section className="text-gray-700 body-font overflow-hidden bg-white">
+    
   <div className="container px-5 py-24 mx-auto">
     <div className="lg:w-4/5 mx-auto flex flex-wrap">
       <img
@@ -103,10 +122,10 @@ export default function ProductDetail() {
       />
       <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
         <h2 className="text-sm title-font text-gray-500 tracking-widest">
-          Product Id : {id}
+          Product Id : {prdctDetail?._id}
         </h2>
         <h1 className="text-gray-900 text-3xl title-font font-medium mb-1">
-          Product Name...
+          {prdctDetail?.CHEMICAL_NAME}
         </h1>
         <div className="flex mb-4">
           <span className="flex items-center">
@@ -137,7 +156,7 @@ export default function ProductDetail() {
           </span>
           <span className="flex ml-3 pl-3 py-2 border-l-2 border-gray-200">
             
-            <span className="text-gray-600 ml-3">Purity : xx%</span>
+            <span className="text-gray-600 ml-3">Purity : {prdctDetail?.PURITY}%</span>
           </span>
         </div>
         <p className="leading-relaxed">
@@ -223,7 +242,7 @@ export default function ProductDetail() {
           <span className="title-font font-medium text-2xl text-gray-900">
             $58.00
           </span>
-          <button className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
+          <button onClick={(e)=>buyNow()} className="flex ml-auto text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded">
             Buy Now
           </button>
           <button className="rounded-full w-10 h-10 bg-gray-200 p-0 border-0 inline-flex items-center justify-center text-gray-500 ml-4">
@@ -253,6 +272,8 @@ export default function ProductDetail() {
     </div>
   </div>
 </section>
+
+
 <div className="h-56 bg-gray-100"></div>
 
       
