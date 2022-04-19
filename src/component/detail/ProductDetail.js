@@ -160,7 +160,7 @@ export default function ProductDetail() {
           </span>
         </div>
         <p className="leading-relaxed">
-          Buy 2-Hydroxy-5-Nitro Benzaldehyde from ApiOnline. ApiOnline provides the best quality 2-Hydroxy-5-Nitro Benzaldehyde at the best competitive price.
+          Buy 2-Hydroxy-5-Nitro Benzaldehyde from ApiOnline. ApiOnline provides the best quality 2-Hydroxy-5-Nitro Benzaldehyde at the best competitive rate.
            ApiOnline assures your payment which will be made for 2-Hydroxy-5-Nitro Benzaldehyde is safe and secure.
         </p>
         <h1 className="font-bold text-xl text-yellow-800 mt-10">Ask The Seller For a Different Weight </h1>

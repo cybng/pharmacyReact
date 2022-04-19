@@ -16,6 +16,8 @@ import DetailVerification from './auth/DetailVerification';
 import SellerPanel from './seller/SellerPanel';
 import ProductList from './seller/AllProductList';
 import Upload from './seller/Upload';
+import AdminUpload from './admin/Upload';
+import CartPage from './component/cart/CartPage';
  
 export default function App() {
    const adminToken = window.localStorage.getItem("token");
@@ -55,6 +57,7 @@ export default function App() {
     <AdminRouter path="/admin" exact component={Admin}/>
     <AdminRouter exact path="/admin/addcategory" component={AddCategory} />
     <AdminRouter exact path="/admin/approval" component={CsvProduct} />
+    <AdminRouter exact path="/admin/upload" component={AdminUpload}/>
     <Route exact path="/gst" component={Gst} />
     <Route exact path="/otp" component={Otp}/>
     <Route exact path="/general" component={DetailVerification}/>
@@ -62,6 +65,7 @@ export default function App() {
     <SellerRouter exact path="/upload" component={Upload}/>
     <SellerRouter exact path="/productList" component={ProductList}/>
     <Route exact path="/logout" component={Login}/>
+    <Route exact path="/cart" component={CartPage}/>
     </Switch>
      
       

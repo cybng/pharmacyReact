@@ -34,9 +34,9 @@ export default function Login() {
 	return (
 		<> 
   {/* component */}
-  <div className="p-20 h-auto w-full flex flex-col-reverse md:flex-row items-center justify-center bg-gray-200">
+  <div className="p-20 h-auto w-full flex flex-col-reverse md:flex-row items-center justify-center bg-sky-50">
     <div className="content text-3xl text-center md:text-left">
-      <Link to={"/"} className="text-5xl font-bold" style={{color:"#1B3992"}} title="ApiOnline Home">ApiOnline.in</Link>
+      <Link to={"/"} className="text-5xl font-bold text-sky-500" title="ApiOnline Home">ApiOnline.in</Link>
       <p className="text-gray-500 mt-2 text-2xl">Save drugs. Use as per your needs</p>
     </div>
     <div className="container mx-auto flex flex-col items-center">
@@ -58,15 +58,14 @@ export default function Login() {
           className="mb-3 py-3 px-4 border border-gray-400 focus:outline-none rounded-md focus:ring-1 ring-cyan-500"
         />
         <button 
-          className="w-full text-white p-3 rounded-lg font-semibold text-lg" 
-          style={{backgroundColor:"#1B3992"}}
+          className="w-full text-white p-3 rounded-lg font-semibold text-lg bg-sky-500"
           onClick={(e)=>loginData()}
           >
           Login
         </button>
-        <a className="text-center my-2" style={{color:"#1B3992"}}>Forgot Pasword?</a>
+        <a className="text-center my-2 text-gray-500">Forgot Pasword?</a>
         <hr />
-        <Link to={"/reg"} className="w-full text-center p-3 text-blue-800 rounded-lg font-semibold text-xs">
+        <Link to={"/reg"} className="w-full text-center p-3 text-sky-500 rounded-lg font-semibold text-xs">
           Create New Account
         </Link>
       </div>

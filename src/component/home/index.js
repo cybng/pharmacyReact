@@ -3,7 +3,9 @@ import {Link } from 'react-router-dom'
 import axios from "axios";
 import {useDispatch,useSelector} from 'react-redux'
 import Bx from "./bxx.png"
-import {GetCategory} from '../../action'
+import {GetCategory,addToCart} from '../../action'
+import Header from "../Header"
+import Particles from "react-tsparticles";
 
 export default function Home() {
      const dispatch =  useDispatch();
@@ -15,13 +17,19 @@ export default function Home() {
 
 
      const [allData,setAllData] = useState([]);
+     const [allProduct,setAllProduct] = useState([]);
      const getCsvData=async()=>{
         const res=await axios.post("http://localhost:3000/api/getApprovedCsvProduct");
         console.log(res);
         setAllData(res.data);
       }
+      const allProductData=async()=>{
+        const res = await axios.get("http://localhost:3000/api/getAllProduct");
+        setAllProduct(res.data);
+      }
     useEffect(()=>{
       getCsvData();
+      allProductData()
     },[])
       
 
@@ -48,184 +56,69 @@ export default function Home() {
   }
 
 console.log(allCategory.allCategory)
+
+const addCart=(id,sku,rate,purity)=>{
+  const data={_id:id,
+        sku:sku,
+        rate:rate,
+        purity:purity}
+  
+   dispatch(addToCart(data));
+}
+
+
+
      
 	return (
 		<div className="">
-  <div className="justify-center items-center flex h-48 relative" style={{backgroundColor:"#1B3992"}}>
-
-   <div className="h-full absolute left-0 w-96 flex justify-center p-6 rounded-r-full" style={{backgroundColor:"#2D499A"}}>
-     <div className="flex text-white text-4xl font-bold">ApiOnline</div>
-   </div>
-   <div className="absolute flex w-auto justify-center align-center right-10 top-8">
-   
-     
-        {allCategory.categories?.length > 0 ? renderCategories(allCategory.categories) : null}
- 
-     <div className="flex text-white text-normal font-normal p-2">
-     <span>|</span>
-     </div>
-     <div className="flex text-white text-normal font-normal p-2">
-     {/*<img src="https://img.icons8.com/ios/18/ffffff/shopping-cart.png"/>*/}
-     {auth.authenticate?
-      <Link to="/logout">{`Hi ${auth?.user?.fname.charAt(0).toUpperCase()}${auth?.user?.fname.slice(1)}`}</Link>:
-      <Link to={"/login"}>Login</Link>}
-     </div>
-     {/*<div className="flex text-white text-normal font-normal p-2">
-     <Link to={"/login"}>More</Link>
-     </div>
-*/}     <div className="flex text-white text-normal font-normal p-2">
-     <Link to={"/detail"}>Cart</Link>
-     </div>
-     
-        
-      
-
-      
-   </div>
-    
-   {/*<h1 className="text-6xl text-white font-extrabold font-mono">Akira B2B </h1>*/}
-    <div className="border border-gray-300 p-6   bg-white shadow-lg rounded-md   w-9/12  absolute  -bottom-16 ">
+    <Header/>  
        
-      <div className="">
-        <div className="flex">
-          <div className="flex border rounded w-full bg-white items-center p-2 ">
-            <svg
-              className="fill-current text-gray-800 mr-2 w-5"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              width={24}
-              height={24}
-            >
-              <path
-                className="heroicon-ui"
-                d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z"
-              />
-            </svg>
-            <input
-              type="text"
-              placeholder="Search Medicine..."
-              className="bg-white w-full focus:outline-none text-gray-700"
-            />
-          </div> 
-          <button className="p-2 border rounded-md text-white ml-1" style={{backgroundColor:"#1B3992"}}>
-          Search
+    <div className="h-96 bg-sky-50 w-full">
+      <section className="flex justify-center items-center w-9/12 h-96 mx-auto">
+      <div className="flex-col text-center  text-4xl text-white">
+        <h1 className="font-semibold leading-9 text-gray-600">Deal with the best Chemical supplier B2B</h1>
+        <h1 className="text-sky-500 px-5 pt-10 pb-10 leading-9">Buyer & Seller :)</h1>
+        <div className="py-5 px-5 flex justify-center items-center">
+        <input type="text" placeholder="Search chemical" className="text-sm p-3 w-9/12 rounded-tl-sm rounded-bl-sm active:border-0 drop-shadow-sm text-sky-500"/>
+        <button className="p-3 bg-sky-500 hover:bg-sky-600 rounded-tr-sm rounded-br-sm text-sm drop-shadow-sm font-bold">
+          <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="20" height="20" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+   <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+   <circle cx="10" cy="10" r="7"></circle>
+   <line x1="21" y1="21" x2="15" y2="15"></line>
+</svg>
         </button>
         </div>
-         
+        </div>
+      </section>
+    </div>
+    <div className="px-5 py-10 bg-gray-50 w-full"></div>
+    <div className="w-9/12 mx-auto py-5">
+    <div className="grid grid-cols-4 gap-4">
+    {allProduct?.map((data)=>(
+      <div className="w-full bg-sky-500 hover:bg-sky-400 h-60">
+      <div><img src={data?.DOCUMENTS}/></div>
+        {data?.SKU_CODE}
+        {data?.CHEMICAL_NAME}
+        {data?.STRUCTURE}
+        {data?.PURITY}
+        {data?.CATEGORY}
+        {data?.DATE_OF_MANUFACTURE}
+        {data?.DATE_OF_EXPIRY}
+        {data?.STATE_TYPE_COLOR}
+        {data?.DESCRIPTION}
+        {data?.QUANTITY}
+        {data?.UNITS}
+        {data?.STOCK}
+        {data?.RATE}
+        {data?.GST}
+        {data?.requestId}
+        <button className="bg-sky-600 text-white p-2 rounded-sm text-sm" onClick={(e)=>addCart(data?._id,data?.SKU_CODE,data?.RATE,data?.PURITY)}>Add to Cart</button>
       </div>
-
-      {/*<div className="flex mt-5"> 
-        <span className="mx-1 text-blue-500 ">medicine</span> 
-        <span className=" mx-1 text-blue-500">drug</span>  
-        <span className=" mx-1 text-blue-500">tablet</span>  
-        
-      </div>*/}
+      ))
+    }
     </div>
-  </div>
-  <div className="container h-auto mx-auto justify-center m-20 shadow-lg bg-white border border-gray-100">
-     {/*<div className="flex">
-    <Link to="/detail" className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></Link>
-    <Link to="/detail" className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></Link>
-    <Link to="/detail" className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></Link>
-    <Link to="/detail" className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></Link>
-    <Link to="/detail" className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></Link>  
     </div>
-    <div className="flex">
-    <div className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></div>
-    <div className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></div>
-    <div className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></div>
-    <div className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></div>
-    <div className="h-56 w-52 bg-gray-100 border border-gray-100 left-0 m-5"></div>  
-    </div>*/}
-    <main className="my-8">
-  <div className="container mx-auto px-6">
-    <h3 className="text-gray-700 text-2xl font-medium">Latest Product</h3>
-    <span className="mt-3 text-sm text-gray-500"></span>
-    <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 mt-6">
-
-      {allData.map(allPrdct=>(
-      <Link to={`/detail?id=${allPrdct.SKU_CODE}`} className="w-full max-w-sm mx-auto rounded-md shadow-md overflow-hidden">
-        <div
-          className="flex items-end justify-end h-56 w-full bg-cover"
-          style={{
-            backgroundImage:
-              'url("https://wallpaperbat.com/img/364806-organic-chemistry-wallpaper-science-chemistry-organic-chemistry.jpg")'
-          }}
-        >
-          <button className="p-2 rounded-full bg-blue-600 text-white mx-5 -mb-4 hover:bg-blue-500 focus:outline-none focus:bg-blue-500">
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth={2}
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-          </button>
-        </div>
-        <div className="px-5 py-3">
-          <h3 className="text-gray-700 uppercase">SKU : {allPrdct?.SKU_CODE}</h3>
-          <h3 className="text-gray-700 uppercase">{allPrdct?.CHEMICAL_NAME}</h3>
-          <span className="text-gray-500 mt-2">500</span>
-        </div>
-      </Link>
-      ))}
-
       
-
- 
-
-
-
-
-
-    </div>
-
-    {/*
-    <div className="flex justify-center">
-      <div className="flex rounded-md mt-8">
-        <a
-          href="#"
-          className="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 ml-0 rounded-l hover:bg-blue-500 hover:text-white"
-        >
-          <span>Previous</span>
-        </a>
-        <a
-          href="#"
-          className="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"
-        >
-          <span>1</span>
-        </a>
-        <a
-          href="#"
-          className="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"
-        >
-          <span>2</span>
-        </a>
-        <a
-          href="#"
-          className="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 border-r-0 hover:bg-blue-500 hover:text-white"
-        >
-          <span>3</span>
-        </a>
-        <a
-          href="#"
-          className="py-2 px-4 leading-tight bg-white border border-gray-200 text-blue-700 rounded-r hover:bg-blue-500 hover:text-white"
-        >
-          <span>Next</span>
-        </a>
-      </div>
-    </div>*/}
-
-
-  </div>
-</main>
-
-  </div>
-  <div className="h-56 bg-gray-100"></div>
 </div>
 
 
