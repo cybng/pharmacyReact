@@ -2,6 +2,7 @@ import {cartStatus,checkStatus} from "./Status";
 // import axios from '../helper/Axios';
 import axios from 'axios';
 import store from "../store";
+import {useSelector} from "react-redux";
 
 const getCartItems = () => {
   return async (dispatch) => {
@@ -53,10 +54,12 @@ export const addToCart = (product, newQty = 1) => {
         //         product: cartItems[key]._id
         //     }
         // })
+        user:product.userId,
         cartItems: [
           {
             product: product._id,
             quantity: qty,
+            uploadby:product.uploadBy
           },
         ],
       };
@@ -141,10 +144,26 @@ export const updateCart = () => {
   };
 };
 
-export const checkAvailbility=(product)=>{
+// export const checkAvailbility=(product)=>{
+//   return async(dispatch)=>{
+//     dispatch({type:checkStatus.CHECK_REQUEST});
+//    const res = await axios.post("http://localhost:3000/api/checkAvailbility",product);
+//    const {data,status} = res;
+//    if(status===200){
+//     dispatch({
+//             type:checkStatus.CHECK_SUCCESS,
+//             payload:{data}
+//           })
+//    }else{
+//     console.log("CHECK AVAILBILITY ACTION ERR");
+//    }
+//   }
+// }
+export const checkAvailbility=(productId)=>{
   return async(dispatch)=>{
+    const product = {userId:productId};
     dispatch({type:checkStatus.CHECK_REQUEST});
-   const res = await axios.post("http://localhost:3000/api/checkAvailbility",product);
+   const res = await axios.post("http://localhost:3000/api/updateavaility",product);
    const {data,status} = res;
    if(status===200){
     dispatch({

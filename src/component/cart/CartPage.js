@@ -56,7 +56,8 @@ const CartPage = (props) => {
   }
 
   const checkAvailbilityProduct=()=>{
-     const data=cart.cartItems;
+     // const data=cart.cartItems;
+     const data=auth.user._id;
      dispatch(checkAvailbility(data));
 
   }

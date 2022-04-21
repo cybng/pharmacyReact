@@ -57,8 +57,10 @@ export default function Home() {
 
 console.log(allCategory.allCategory)
 
-const addCart=(id,sku,rate,purity)=>{
+const addCart=(id,sku,rate,purity,uploadBy)=>{
   const data={_id:id,
+        userId:auth.user._id,
+        uploadBy:uploadBy,
         sku:sku,
         rate:rate,
         purity:purity}
@@ -112,7 +114,7 @@ const addCart=(id,sku,rate,purity)=>{
         {data?.RATE}
         {data?.GST}
         {data?.requestId}
-        <button className="bg-sky-600 text-white p-2 rounded-sm text-sm" onClick={(e)=>addCart(data?._id,data?.SKU_CODE,data?.RATE,data?.PURITY)}>Add to Cart</button>
+        <button className="bg-sky-600 text-white p-2 rounded-sm text-sm" onClick={(e)=>addCart(data?._id,data?.SKU_CODE,data?.RATE,data?.PURITY,data?.uploadBy)}>Add to Cart</button>
       </div>
       ))
     }
